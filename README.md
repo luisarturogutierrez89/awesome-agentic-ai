@@ -35,7 +35,8 @@ Ojo: `/plugin` solo existe DENTRO de la sesion. Si lo escribes en tu shell vas a
 ver `zsh: no such file or directory: /plugin`; ahi usa la variante `claude plugin`.
 
 Reinicia la sesion para que cargue. Para actualizar despues de un cambio en el
-repo: `claude plugin update crew`.
+repo: `claude plugin update crew@ai-eng-levels` (el ID completo con
+marketplace; `claude plugin update crew` a secas falla con "Plugin not found").
 
 ## Usarlo
 
