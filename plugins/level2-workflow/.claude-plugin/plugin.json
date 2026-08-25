@@ -1,0 +1,16 @@
+{
+  "name": "level2-workflow",
+  "description": "Workflow nivel 2 (autonomia supervisada): product-analyst, architect, coder, tester, reviewer, debugger, docs-writer y security-auditor, con un skill de orquestacion (plan -> validacion) y un comando de arranque.",
+  "version": "0.2.0",
+  "author": {
+    "name": "luisarturogutierrez89"
+  },
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "subagents",
+    "orchestration",
+    "code-review",
+    "planning"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "ai-eng-levels",
+  "owner": {
+    "name": "luisarturogutierrez89",
+    "url": "https://github.com/luisarturogutierrez89"
+  },
+  "description": "Workflow nivel 2 (autonomia supervisada) para Claude Code: un equipo de subagentes que planean, implementan, prueban y revisan mientras tu validas.",
+  "plugins": [
+    {
+      "name": "level2-workflow",
+      "source": "./plugins/level2-workflow",
+      "description": "8 subagentes + skill de orquestacion + comando de arranque para el flujo plan -> validacion."
+    }
+  ]
+}
