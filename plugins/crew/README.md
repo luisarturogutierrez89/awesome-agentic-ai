@@ -4,6 +4,19 @@ Equipo de subagentes para trabajar con Claude Code en modo "autonomia
 supervisada" (nivel 2): los agentes hacen el trabajo, tu apruebas el plan y
 validas el resultado.
 
+## Cuando NO usar el pipeline
+
+El equipo completo son 8 subagentes, y cada uno corre sus propias peticiones. Para
+un typo, un rename o un fix de una linea cuesta mucho mas de lo que aporta: el
+flujo hace triage primero y resuelve directo los cambios triviales. El pipeline
+es para features y cambios multi-archivo o sensibles.
+
+Referencia de costo relativo, medida en una migracion de autenticacion real
+(9 despachos): una llamada a `coder` costo ~7x lo que una auditoria de seguridad
+y ~20x lo que un plan. Lo caro es implementar; la supervision es barata. Por eso
+conviene mover la seguridad al PLAN en vez de dejarla a la auditoria final: un
+hallazgo temprano evita rehacer la implementacion.
+
 ## Pipeline
 
 ```
