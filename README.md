@@ -1,6 +1,6 @@
 # AI Engineering Levels — Workflow nivel 2 para Claude Code
 
-Un marketplace de Claude Code con un plugin, **level2-workflow**, que empaqueta
+Un marketplace de Claude Code con un plugin, **crew**, que empaqueta
 un equipo de subagentes para trabajar en modo "autonomia supervisada" (nivel 2):
 los agentes planean, implementan, prueban y revisan; tu apruebas el plan y
 validas el resultado.
@@ -11,20 +11,31 @@ validas el resultado.
   `reviewer`, `debugger`, `docs-writer`, `security-auditor`.
 - **1 skill de orquestacion** (`level2-workflow`): la disciplina plan -> validacion,
   que Claude carga solo cuando la tarea es planear o construir.
-- **1 comando de arranque** (`/level2-workflow:kickoff`): dispara el pipeline
+- **1 comando de arranque** (`/crew:kickoff`): dispara el pipeline
   completo para una feature.
 
 ## Instalar (cualquier dev, cualquier maquina)
 
-Con el repo publicado en GitHub, desde Claude Code:
+Hay dos formas equivalentes. **Desde la terminal**:
+
+```bash
+claude plugin marketplace add luisarturogutierrez89/awesome-agentic-ai
+claude plugin install crew@ai-eng-levels
+```
+
+O **dentro de una sesion de Claude Code** (arranca `claude` primero, y ahi
+escribes):
 
 ```
 /plugin marketplace add luisarturogutierrez89/awesome-agentic-ai
-/plugin install level2-workflow@ai-eng-levels
+/plugin install crew@ai-eng-levels
 ```
 
-Si el resumen dice `Run /reload-plugins to activate.`, corre ese comando.
-Para actualizar despues de un cambio en el repo: `/plugin marketplace update`.
+Ojo: `/plugin` solo existe DENTRO de la sesion. Si lo escribes en tu shell vas a
+ver `zsh: no such file or directory: /plugin`; ahi usa la variante `claude plugin`.
+
+Reinicia la sesion para que cargue. Para actualizar despues de un cambio en el
+repo: `claude plugin update crew`.
 
 ## Usarlo
 
@@ -35,7 +46,7 @@ claude --permission-mode plan
 ```
 
 ```
-/level2-workflow:kickoff clasificar el tipo de recibo antes de parsearlo
+/crew:kickoff clasificar el tipo de recibo antes de parsearlo
 ```
 
 Veras al `product-analyst` clarificar requerimientos, luego al `architect`
@@ -47,7 +58,7 @@ ejecutar, para que tu valides el diff al final (gate 2).
 1. En `.claude-plugin/marketplace.json`: cambia `owner.name`, `owner.url` y el
    `name` del marketplace (`ai-eng-levels`). El `name` debe ser kebab-case y
    unico para ti: cada usuario solo puede registrar un marketplace por nombre.
-2. En `plugins/level2-workflow/.claude-plugin/plugin.json`: pon tu `author.name`.
+2. En `plugins/crew/.claude-plugin/plugin.json`: pon tu `author.name`.
 3. Valida antes de compartir:
    ```
    claude plugin validate .

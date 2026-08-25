@@ -1,4 +1,4 @@
-# level2-workflow
+# crew
 
 Equipo de subagentes para trabajar con Claude Code en modo "autonomia
 supervisada" (nivel 2): los agentes hacen el trabajo, tu apruebas el plan y
@@ -30,5 +30,5 @@ Segun la situacion entran: `debugger` (cuando algo se rompe), `docs-writer`
 
 - `agents/` — los 8 subagentes.
 - `skills/level2-workflow/` — la disciplina de orquestacion (plan -> validacion).
-- `commands/kickoff.md` — comando `/level2-workflow:kickoff <descripcion>` que
+- `commands/kickoff.md` — comando `/crew:kickoff <descripcion>` que
   dispara el pipeline completo.
