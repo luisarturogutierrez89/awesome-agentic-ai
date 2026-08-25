@@ -33,10 +33,24 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
    de forma independiente, asi que corren a la vez sin chocar. No paralelices
    agentes que escriben en los mismos archivos.
 
-5. **Dos puntos de validacion humana:**
+5. **Cierra el loop antes de entregar.** El flujo no termina en el primer diff:
+   se corrige solo, de forma acotada, antes de pasarle el control al humano.
+   - Si el `tester` falla: `debugger` -> `tester` otra vez. Maximo 2 vueltas. No
+     pases a la revision con las pruebas en rojo.
+   - Si la revision arroja hallazgos CRITICOS o IMPORTANTES: `coder` (o
+     `debugger`) los arregla, `tester` re-verifica, y se re-dispara solo al
+     agente que los reporto. Maximo 2 vueltas. Los MENORES se reportan sin
+     arreglar, para que el ciclo no se eternice.
+   - Criterio de salida: pruebas en verde y cero hallazgos criticos o
+     importantes. Lo que siga vivo tras 2 vueltas se escala al humano marcado
+     como PENDIENTE; nunca se esconde ni se minimiza.
+   - FRENO: si un arreglo exige cambiar el plan aprobado, el loop PARA y vuelve
+     al gate 1. Un loop que rediseña la solucion solo ya no es nivel 2.
+
+6. **Dos puntos de validacion humana:**
    - Gate 1: el humano aprueba el plan antes de ejecutar.
    - Gate 2: al terminar, resume el diff y que se verifico para que el humano
      valide el output.
 
-6. **Seguridad.** Pregunta antes de operaciones destructivas de git y no hagas
+7. **Seguridad.** Pregunta antes de operaciones destructivas de git y no hagas
    commits salvo que se pida explicitamente.
