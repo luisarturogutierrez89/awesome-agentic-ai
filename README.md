@@ -50,9 +50,19 @@ claude --permission-mode plan
 /crew:kickoff clasificar el tipo de recibo antes de parsearlo
 ```
 
-Veras al `product-analyst` clarificar requerimientos, luego al `architect`
-proponer un plan que tu apruebas (gate 1), y despues coder/tester/reviewer
-ejecutar, para que tu valides el diff al final (gate 2).
+Usa plan mode: es lo que hace que el gate 1 sea real. Sin el, "no toques codigo
+hasta que yo apruebe" es solo una instruccion; con el, los edits estan
+bloqueados por el harness hasta que apruebes.
+
+Veras al `product-analyst` clarificar requerimientos y luego un plan tecnico que
+tu apruebas (gate 1). Ojo con quien lo escribe: **en plan mode el plan lo produce
+el planificador nativo de Claude Code, no `architect`**. En ese caso `architect`
+entra despues, para revisar ese plan y agregarle lo que le falte —sobre todo las
+restricciones de seguridad, que los planificadores genericos no incluyen. Si
+corres sin plan mode, `architect` produce el plan completo el mismo.
+
+Despues coder/tester/reviewer ejecutan, con loops de correccion acotados, para
+que tu valides el diff al final (gate 2).
 
 ## Si lo forkeas: personaliza
 

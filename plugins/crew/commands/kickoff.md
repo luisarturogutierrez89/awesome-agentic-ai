@@ -20,8 +20,26 @@ correccion acotado ANTES de pasarme el control a mi.
 
 1. Delega en `product-analyst` para clarificar requerimientos y criterios de
    aceptacion. Hazme las preguntas que falten antes de continuar.
-2. Con los requerimientos claros, delega en `architect` para el plan tecnico y
-   presentamelo. NO toques codigo hasta que yo apruebe el plan.  [gate 1]
+2. PLAN. Con los requerimientos claros, consigue el plan tecnico. Puede venir de
+   dos lados y ambos son validos:
+   - Si la sesion corre en PLAN MODE, el planificador nativo produce el plan.
+     Igual delega en `architect` para que lo revise y le AGREGUE lo que le
+     falte, sobre todo las restricciones de seguridad. `architect` complementa,
+     no rehace.
+   - Si NO hay plan, delega en `architect` para que lo produzca completo.
+
+   EL PLAN NO PASA AL GATE 1 SIN SU SECCION DE RESTRICCIONES DE SEGURIDAD
+   cuando el cambio toque autenticacion, sesiones, secretos, entradas de
+   usuario, subida de archivos o permisos. Los planificadores genericos casi
+   nunca la incluyen; es la diferencia entre implementarlo bien a la primera y
+   pagar una ronda de arreglos despues de la auditoria.
+
+   Presentame el plan y NO toques codigo hasta que yo lo apruebe.  [gate 1]
+
+   Al presentarlo dime bajo que regimen estamos: si la sesion esta en plan mode,
+   los edits estan bloqueados por el harness y el gate es real; si NO lo esta, el
+   gate depende solo de que tu respetes esta instruccion. Si no estas en plan
+   mode, dimelo y recomiendame reiniciar con `claude --permission-mode plan`.
 3. Tras mi aprobacion, delega SECUENCIALMENTE: `coder` implementa el plan, luego
    `tester` verifica. No los corras en paralelo: el tester necesita el codigo ya
    escrito.
@@ -33,15 +51,25 @@ correccion acotado ANTES de pasarme el control a mi.
    `reviewer` (calidad), `security-auditor` (si el cambio es sensible) y
    `docs-writer` (documentacion). Son de lectura independiente sobre el mismo
    diff, asi que no chocan y ahorras tiempo.
-6. LOOP DE CORRECCION (maximo 2 vueltas). Si la revision arroja hallazgos
-   CRITICOS o IMPORTANTES:
+6. LOOP DE CORRECCION (maximo 2 vueltas). Se dispara con todo hallazgo marcado
+   BLOQUEANTE. Los agentes usan escalas distintas y las DOS cuentan:
+   `reviewer` reporta critico / importante / menor, y `security-auditor` reporta
+   critico / alto / medio / bajo. Son bloqueantes: critico e importante del
+   `reviewer`, y critico y ALTO del `security-auditor`. Un "alto" de seguridad
+   NO es un hallazgo menor.
    a. Delega el arreglo en `coder`, o en `debugger` si es un fallo de
       comportamiento. Arregla SOLO esos hallazgos; no amplies el alcance.
-   b. Vuelve a correr `tester` para confirmar que el arreglo no rompio nada.
-   c. Re-dispara solo al agente cuyos hallazgos se atendieron, para verificar
+   b. EN LOTES: si hay mas de tres hallazgos, no se los pases todos de golpe.
+      Agrupalos por area (por ejemplo: control de acceso, luego validacion de
+      entradas) y despacha un lote por llamada. Un `coder` con demasiado en el
+      plato se queda sin contexto a media tarea y hay que relanzarlo, lo que
+      cuesta llamadas extra que no arreglan nada nuevo.
+   c. Vuelve a correr `tester` para confirmar que el arreglo no rompio nada.
+   d. Re-dispara solo al agente cuyos hallazgos se atendieron, para verificar
       que quedaron resueltos.
-   Los hallazgos MENORES no se arreglan: se reportan tal cual.
-7. CRITERIO DE SALIDA: pruebas en verde y cero hallazgos criticos o importantes.
+   Los hallazgos MENORES (o medio/bajo de seguridad) no se arreglan: se reportan
+   tal cual.
+7. CRITERIO DE SALIDA: pruebas en verde y cero hallazgos BLOQUEANTES vivos.
    Si despues de 2 vueltas queda alguno vivo, no lo escondas ni lo minimices:
    escalamelo marcado como PENDIENTE, con lo que se intento.
 8. FRENO. Si un arreglo requiere cambiar el plan aprobado (no es un fix acotado),

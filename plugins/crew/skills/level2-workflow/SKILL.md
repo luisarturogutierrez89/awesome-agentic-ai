@@ -13,8 +13,15 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
    features y cambios multi-archivo o sensibles. Este paso es el que evita
    gastar 8 subagentes en un fix de una linea.
 
-2. **Planea primero.** Para cambios de mas de un archivo o no triviales, entra en
-   plan mode: propon un plan y espera la aprobacion del humano antes de editar nada.
+2. **Planea primero, y endurece el plan.** Para cambios de mas de un archivo o no
+   triviales, entra en plan mode: propon un plan y espera la aprobacion del
+   humano antes de editar nada. Plan mode es preferible porque bloquea los edits
+   en el harness, no solo por instruccion.
+   El plan puede venir del planificador nativo o de `architect`; en cualquier
+   caso, si el cambio toca autenticacion, sesiones, secretos, entradas de
+   usuario, subida de archivos o permisos, NO lo lleves al gate 1 sin su seccion
+   de restricciones de seguridad. Si el plan nativo no la trae, delega en
+   `architect` para que la agregue: complementa el plan, no lo rehace.
 
 3. **Actua como orquestador.** Coordina y delega; manten el plan al frente de tu
    contexto y evita ensuciarlo con detalles de implementacion. No hagas tu el
@@ -43,12 +50,16 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
    se corrige solo, de forma acotada, antes de pasarle el control al humano.
    - Si el `tester` falla: `debugger` -> `tester` otra vez. Maximo 2 vueltas. No
      pases a la revision con las pruebas en rojo.
-   - Si la revision arroja hallazgos CRITICOS o IMPORTANTES: `coder` (o
-     `debugger`) los arregla, `tester` re-verifica, y se re-dispara solo al
-     agente que los reporto. Maximo 2 vueltas. Los MENORES se reportan sin
-     arreglar, para que el ciclo no se eternice.
-   - Criterio de salida: pruebas en verde y cero hallazgos criticos o
-     importantes. Lo que siga vivo tras 2 vueltas se escala al humano marcado
+   - Si la revision arroja hallazgos BLOQUEANTES: `coder` (o `debugger`) los
+     arregla, `tester` re-verifica, y se re-dispara solo al agente que los
+     reporto. Maximo 2 vueltas. Bloqueante = critico/importante del `reviewer` y
+     critico/ALTO del `security-auditor`: las dos escalas cuentan, un "alto" de
+     seguridad no es menor. Los MENORES (y medio/bajo) se reportan sin arreglar,
+     para que el ciclo no se eternice.
+   - Pasa los hallazgos al `coder` EN LOTES por area si son mas de tres. Todos
+     de golpe le agotan el contexto y hay que relanzarlo: llamadas extra que no
+     arreglan nada nuevo.
+   - Criterio de salida: pruebas en verde y cero hallazgos bloqueantes vivos. Lo que siga vivo tras 2 vueltas se escala al humano marcado
      como PENDIENTE; nunca se esconde ni se minimiza.
    - FRENO: si un arreglo exige cambiar el plan aprobado, el loop PARA y vuelve
      al gate 1. Un loop que rediseña la solucion solo ya no es nivel 2.

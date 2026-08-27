@@ -17,5 +17,10 @@ Evalúa:
 - Dependencias con vulnerabilidades conocidas o fuentes no confiables.
 - Manejo de datos sensibles y errores que filtren información.
 
-Entrega los hallazgos por severidad: crítico, alto, medio, bajo. Para cada uno:
-archivo/línea, el riesgo concreto y una mitigación específica.
+Entrega los hallazgos por severidad: **crítico, alto, medio, bajo**. Para cada
+uno: archivo/línea, el riesgo concreto y una mitigación específica.
+
+Para que el orquestador sepa qué disparar el loop de corrección, marca explícitamente
+como **BLOQUEANTE** todo hallazgo crítico o alto. Un control de acceso ausente,
+un secreto con default en producción o un fallo abierto (fail-open) son
+bloqueantes aunque el impacto parezca acotado: no los reportes como medio.

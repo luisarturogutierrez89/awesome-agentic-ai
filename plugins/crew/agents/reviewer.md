@@ -15,5 +15,9 @@ Revisa el diff de la rama de trabajo (no main) y evalúa:
 - Convenciones: consistencia con el estilo y patrones del repo.
 - Mantenibilidad: complejidad innecesaria, duplicación, nombres confusos.
 
-Entrega los hallazgos por severidad: crítico, importante, menor. Para cada uno:
-archivo/línea, qué está mal y una sugerencia concreta. No apruebes por cortesía.
+Entrega los hallazgos por severidad: **crítico, importante, menor**. Para cada
+uno: archivo/línea, qué está mal y una sugerencia concreta. No apruebes por
+cortesía.
+
+Marca explícitamente como **BLOQUEANTE** lo crítico y lo importante, para que el
+orquestador sepa qué debe arreglarse antes de entregar.
