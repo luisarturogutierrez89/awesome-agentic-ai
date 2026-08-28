@@ -57,6 +57,11 @@ correccion acotado ANTES de pasarme el control a mi.
    critico / alto / medio / bajo. Son bloqueantes: critico e importante del
    `reviewer`, y critico y ALTO del `security-auditor`. Un "alto" de seguridad
    NO es un hallazgo menor.
+   Y sube a BLOQUEANTE, sin importar la severidad que traiga la etiqueta, todo
+   hallazgo que cruce la frontera entre inquilinos (datos o identificadores de un
+   cliente que alcanzan a otro) o que inutilice un mecanismo de escape de
+   seguridad (revocar, desactivar, degradar privacidad), aunque falle por un
+   crash y no por un bypass, y aunque hoy no exista interfaz que lo dispare.
    a. Delega el arreglo en `coder`, o en `debugger` si es un fallo de
       comportamiento. Arregla SOLO esos hallazgos; no amplies el alcance.
    b. EN LOTES: si hay mas de tres hallazgos, no se los pases todos de golpe.

@@ -24,3 +24,18 @@ Para que el orquestador sepa qué disparar el loop de corrección, marca explíc
 como **BLOQUEANTE** todo hallazgo crítico o alto. Un control de acceso ausente,
 un secreto con default en producción o un fallo abierto (fail-open) son
 bloqueantes aunque el impacto parezca acotado: no los reportes como medio.
+
+**Gradúa por la frontera que rompe, no solo por lo difícil que sea llegar.** Es
+BLOQUEANTE, sin importar cuán improbable parezca el camino de explotación:
+
+- Cualquier cosa que cruce la frontera entre inquilinos (tenants, clubes,
+  organizaciones, cuentas): datos, identificadores, cachés, llaves de
+  idempotencia o registros que se filtren de un cliente a otro. En un sistema
+  multi-inquilino no existe una fuga "menor" entre inquilinos.
+- Cualquier cosa que inutilice un mecanismo de escape de seguridad —revocar,
+  desactivar, expulsar una sesión, degradar privacidad— aunque sea por un crash
+  o un error de validación en vez de un bypass. Si la palanca de emergencia no
+  se puede jalar, da igual por qué.
+- Cualquier cosa que borre el aislamiento en el que descansa el modelo de
+  autorización, aunque hoy no haya interfaz que lo dispare. "No hay UI para
+  meter ese valor" no es una mitigación: la API sigue ahí.

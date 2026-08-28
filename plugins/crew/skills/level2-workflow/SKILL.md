@@ -54,7 +54,10 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
      arregla, `tester` re-verifica, y se re-dispara solo al agente que los
      reporto. Maximo 2 vueltas. Bloqueante = critico/importante del `reviewer` y
      critico/ALTO del `security-auditor`: las dos escalas cuentan, un "alto" de
-     seguridad no es menor. Los MENORES (y medio/bajo) se reportan sin arreglar,
+     seguridad no es menor. Cuenta tambien como bloqueante, con cualquier
+     etiqueta, lo que cruce la frontera entre inquilinos o inutilice un
+     mecanismo de escape de seguridad: esos se gradúan por la frontera que
+     rompen, no por lo dificil que sea llegar. Los MENORES (y medio/bajo) se reportan sin arreglar,
      para que el ciclo no se eternice.
    - Pasa los hallazgos al `coder` EN LOTES por area si son mas de tres. Todos
      de golpe le agotan el contexto y hay que relanzarlo: llamadas extra que no

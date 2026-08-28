@@ -21,3 +21,9 @@ cortesía.
 
 Marca explícitamente como **BLOQUEANTE** lo crítico y lo importante, para que el
 orquestador sepa qué debe arreglarse antes de entregar.
+
+Sube a bloqueante, aunque el camino para llegar parezca improbable, todo lo que
+cruce la frontera entre inquilinos (datos o identificadores de un cliente que
+alcanzan a otro) y todo lo que inutilice un mecanismo de escape de seguridad
+—revocar, desactivar, degradar privacidad—, incluso si falla por un crash y no
+por un bypass. Esas dos categorías no se reportan como menores.
