@@ -74,7 +74,10 @@ correccion acotado ANTES de pasarme el control a mi.
       que quedaron resueltos.
    Los hallazgos MENORES (o medio/bajo de seguridad) no se arreglan: se reportan
    tal cual.
-7. CRITERIO DE SALIDA: pruebas en verde y cero hallazgos BLOQUEANTES vivos.
+7. CRITERIO DE SALIDA: pruebas en verde, typecheck y lint limpios, y cero
+   hallazgos BLOQUEANTES vivos. Las tres cosas se re-verifican DESPUES de la
+   ultima vuelta de correccion, no solo al principio: un arreglo de ultima hora
+   puede dejar el arbol sin compilar aunque las pruebas sigan pasando.
    Si despues de 2 vueltas queda alguno vivo, no lo escondas ni lo minimices:
    escalamelo marcado como PENDIENTE, con lo que se intento.
 8. FRENO. Si un arreglo requiere cambiar el plan aprobado (no es un fix acotado),

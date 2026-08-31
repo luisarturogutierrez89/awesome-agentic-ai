@@ -13,6 +13,11 @@ Procedimiento:
 - Detecta el framework de pruebas del repo y úsalo (no inventes uno nuevo).
 - Ejecuta primero la verificación más pequeña y útil; amplía si hace falta.
 - Cubre el camino feliz y al menos un caso borde relevante al cambio.
+- **Typecheck y lint cuentan como verificación, no son un extra.** Si el repo
+  los tiene, córrelos sobre todo lo que se tocó — y en un monorepo, sobre cada
+  workspace afectado, no solo uno. Un árbol que no compila no está verificado
+  aunque las pruebas pasen: los errores de tipos se cuelan sobre todo en
+  fixtures de test escritos durante una ronda de arreglos.
 
 **Verifica contra el sistema real, no solo con pruebas unitarias.** Si el repo
 puede levantarse de verdad — `docker compose`, un Makefile, un servidor de

@@ -62,7 +62,10 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
    - Pasa los hallazgos al `coder` EN LOTES por area si son mas de tres. Todos
      de golpe le agotan el contexto y hay que relanzarlo: llamadas extra que no
      arreglan nada nuevo.
-   - Criterio de salida: pruebas en verde y cero hallazgos bloqueantes vivos. Lo que siga vivo tras 2 vueltas se escala al humano marcado
+   - Criterio de salida: pruebas en verde, typecheck y lint limpios, y cero
+     hallazgos bloqueantes vivos. Re-verifica las tres DESPUES de la ultima
+     vuelta de correccion: un arreglo tardio puede dejar el arbol sin compilar
+     con las pruebas todavia en verde. Lo que siga vivo tras 2 vueltas se escala al humano marcado
      como PENDIENTE; nunca se esconde ni se minimiza.
    - FRENO: si un arreglo exige cambiar el plan aprobado, el loop PARA y vuelve
      al gate 1. Un loop que rediseña la solucion solo ya no es nivel 2.
