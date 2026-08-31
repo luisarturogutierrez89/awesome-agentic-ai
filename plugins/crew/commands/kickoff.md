@@ -90,3 +90,11 @@ correccion acotado ANTES de pasarme el control a mi.
 10. Al final juntame los reportes y resume: el diff, que se verifico, cuantas
     vueltas de correccion hubo, que se arreglo en ellas y que quedo
     pendiente. Di tambien que NO se pudo verificar y por que.  [gate 2]
+11. SI TE PIDO ABRIR UN PR y este trabajo salio de un issue, escribe
+    `Closes #N` en su propio renglon dentro del cuerpo del PR, con el numero del
+    issue. Sin esa palabra clave GitHub NO cierra el issue al mergear: un `#N`
+    suelto en el titulo o en el texto solo deja una referencia cruzada, y el
+    issue hay que cerrarlo a mano. Para varios issues, una palabra clave por
+    cada uno (`Closes #27, closes #28`); un `Closes #27, #28` solo cierra el
+    primero. Usa el numero real, y si no sabes cual es, preguntame antes de
+    inventarlo.
