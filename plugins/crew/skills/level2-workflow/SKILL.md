@@ -62,6 +62,10 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
    - Pasa los hallazgos al `coder` EN LOTES por area si son mas de tres. Todos
      de golpe le agotan el contexto y hay que relanzarlo: llamadas extra que no
      arreglan nada nuevo.
+   - Para re-verificar, distingue: una confirmacion acotada se le pide al agente
+     que YA existe, continuandolo (conserva contexto, no repaga la lectura del
+     diff); la re-auditoria de seguridad se lanza FRESCA, porque ahi la
+     independencia es el valor y un auditor nuevo mira todo el diff otra vez.
    - Criterio de salida: pruebas en verde, typecheck y lint limpios, y cero
      hallazgos bloqueantes vivos. Re-verifica las tres DESPUES de la ultima
      vuelta de correccion: un arreglo tardio puede dejar el arbol sin compilar

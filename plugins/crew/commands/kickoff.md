@@ -70,8 +70,17 @@ correccion acotado ANTES de pasarme el control a mi.
       plato se queda sin contexto a media tarea y hay que relanzarlo, lo que
       cuesta llamadas extra que no arreglan nada nuevo.
    c. Vuelve a correr `tester` para confirmar que el arreglo no rompio nada.
-   d. Re-dispara solo al agente cuyos hallazgos se atendieron, para verificar
-      que quedaron resueltos.
+   d. Re-verifica solo con el agente cuyos hallazgos se atendieron, y elige
+      COMO segun lo que busques:
+      - Confirmacion acotada (que su propio hallazgo quedo resuelto, o agregar
+        un test que el mismo detecto que faltaba): CONTINUA al agente que ya
+        existe mandandole un mensaje, en vez de lanzar uno nuevo. Conserva su
+        contexto, no repaga la lectura del diff y responde desde lo que ya sabe.
+      - Re-auditoria de seguridad: lanza un `security-auditor` NUEVO, aunque
+        cueste mas. Ahi la independencia es el producto: un agente continuado se
+        enfoca en sus propios hallazgos, mientras que uno fresco vuelve a mirar
+        todo el diff y es el que encuentra lo que la primera revision no vio.
+        No abarates este paso.
    Los hallazgos MENORES (o medio/bajo de seguridad) no se arreglan: se reportan
    tal cual.
 7. CRITERIO DE SALIDA: pruebas en verde, typecheck y lint limpios, y cero
