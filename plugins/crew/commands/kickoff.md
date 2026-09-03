@@ -107,3 +107,8 @@ correccion acotado ANTES de pasarme el control a mi.
     cada uno (`Closes #27, closes #28`); un `Closes #27, #28` solo cierra el
     primero. Usa el numero real, y si no sabes cual es, preguntame antes de
     inventarlo.
+    LA PALABRA CLAVE NO SE TRADUCE, aunque todo lo demas del PR este en español.
+    GitHub solo reconoce las inglesas: `close`/`closes`/`closed`,
+    `fix`/`fixes`/`fixed`, `resolve`/`resolves`/`resolved`. Un `Cierra #N` o
+    `Resuelve #N` se ve bien y no hace nada: el issue queda abierto y hay que
+    cerrarlo a mano. Ya paso con dos PRs de este repo.
