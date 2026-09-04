@@ -87,5 +87,9 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
      quedate con la conclusion accionable y suelta el detalle. Si te quedas sin
      ventana a media tarea, el trabajo se corta donde mas duele.
 
-9. **Operaciones de git.** Pregunta antes de operaciones destructivas y no hagas
-   commits salvo que se pida explicitamente.
+9. **Operaciones de git y de GitHub.** Pregunta antes de operaciones
+   destructivas y no hagas commits salvo que se pida explicitamente. Lo mismo
+   para todo lo que salga hacia el repositorio compartido —abrir un PR, crear un
+   issue, comentar en uno ajeno—: aparece en el board del equipo y notifica a
+   colaboradores. Redacta el contenido, muestraselo al humano y espera su visto
+   bueno; no lo crees por tu cuenta aunque sea claramente la accion correcta.

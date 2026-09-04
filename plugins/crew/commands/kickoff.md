@@ -112,3 +112,9 @@ correccion acotado ANTES de pasarme el control a mi.
     `fix`/`fixes`/`fixed`, `resolve`/`resolves`/`resolved`. Un `Cierra #N` o
     `Resuelve #N` se ve bien y no hace nada: el issue queda abierto y hay que
     cerrarlo a mano. Ya paso con dos PRs de este repo.
+12. LO MISMO PARA ABRIR ISSUES. Si algo queda fuera de alcance y merece su
+    propio ticket —un hallazgo que no se pudo cerrar, un bug preexistente que
+    encontraste de paso—, redacta el issue con su evidencia y PRESENTAMELO
+    antes de crearlo. Un issue nuevo aparece en el board del equipo y notifica a
+    colaboradores: la decision es mia, aunque abrirlo sea claramente lo
+    correcto. No lo crees por tu cuenta.
