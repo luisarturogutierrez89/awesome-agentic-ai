@@ -1,7 +1,7 @@
 {
   "name": "crew",
   "description": "Workflow nivel 2 (autonomia supervisada): 8 subagentes que planean, implementan, prueban y revisan, con loops de correccion acotados y dos gates de validacion humana.",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "author": {
     "name": "luisarturogutierrez89"
   },
@@ -11,6 +11,9 @@
     "subagents",
     "orchestration",
     "code-review",
-    "planning"
+    "planning",
+    "ios",
+    "android",
+    "mobile"
   ]
 }

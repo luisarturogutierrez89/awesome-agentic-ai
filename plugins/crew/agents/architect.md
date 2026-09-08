@@ -31,14 +31,23 @@ El plan —lo produzcas tú o lo estés completando— debe tener este formato:
 4. **Restricciones de seguridad que el coder DEBE cumplir.** No las dejes para
    una auditoría posterior: si el cambio toca autenticación, sesiones, secretos,
    entradas de usuario o permisos, escribe aquí la regla concreta *antes* de que
-   se implemente. Por ejemplo: de dónde sale cada secreto y qué pasa si falta en
-   producción, cómo se genera un token de sesión (aleatorio, nunca un ID de fila
-   o un valor predecible), qué flags llevan las cookies, qué entradas se validan
-   y dónde, quién puede llamar a cada endpoint. Un hallazgo de seguridad
+   se implemente. En servidor o web: de dónde sale cada secreto y qué pasa si
+   falta en producción, cómo se genera un token de sesión (aleatorio, nunca un ID
+   de fila o un valor predecible), qué flags llevan las cookies, qué entradas se
+   validan y dónde, quién puede llamar a cada endpoint. En una app móvil: qué
+   vive en el cliente y qué en el servidor (el binario se decompila, así que
+   ningún secreto viaja dentro), dónde se guarda lo sensible (Keychain o
+   almacenamiento cifrado, nunca el almacenamiento por defecto), qué superficie
+   queda expuesta al sistema operativo (URL schemes, universal links,
+   componentes exportados) y qué permisos se piden. Un hallazgo de seguridad
    atrapado aquí cuesta una fracción de lo que cuesta rehacer la implementación.
-5. Cómo se probará el cambio. Si el repo levanta un stack real (docker compose,
-   Makefile, servidor de desarrollo), di explícitamente cómo verificarlo
-   end-to-end contra ese stack, no solo con pruebas unitarias.
+5. Cómo se probará el cambio. Si el proyecto se puede ejercitar de verdad —un
+   stack levantable (docker compose, Makefile, servidor de desarrollo), un
+   simulador de iOS vía `xcodebuild test`, un emulador de Android vía
+   `connectedAndroidTest`— di explícitamente cómo verificarlo end-to-end ahí, no
+   solo con pruebas unitarias. Di también qué queda fuera del alcance
+   automatizable y necesita al humano (firma, provisioning, certificados,
+   pruebas en dispositivo físico).
 6. Riesgos o decisiones abiertas que el humano debería confirmar.
 
 Prefiere el plan más simple que resuelva el objetivo.

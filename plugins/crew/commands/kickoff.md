@@ -10,7 +10,12 @@ Sigue estos pasos, delegando en los subagentes. La construccion es una cadena
 SECUENCIAL; la revision corre en PARALELO; y ambas cierran con un loop de
 correccion acotado ANTES de pasarme el control a mi.
 
-0. TRIAGE PRIMERO. Antes de convocar a nadie, evalua el tamaño real de la tarea.
+0. TRIAGE PRIMERO. Antes de convocar a nadie, identifica de que clase de
+   proyecto se trata, porque cambia como se verifica y donde estan los riesgos:
+   servidor/web, app iOS (hay `.xcodeproj`, `.xcworkspace` o `Package.swift`),
+   app Android (hay `settings.gradle` o `build.gradle[.kts]`), o varios a la vez.
+   Dilo en tu primer mensaje y pasaselo a los agentes que despaches.
+   Luego evalua el tamaño real de la tarea.
    Si es trivial — un archivo, sin comportamiento nuevo, sin tocar seguridad ni
    contratos de API (un typo, renombrar algo, ajustar una constante, un fix de
    una linea) — hazlo TU directamente, avisame que lo hiciste sin pipeline, y
@@ -83,8 +88,10 @@ correccion acotado ANTES de pasarme el control a mi.
         No abarates este paso.
    Los hallazgos MENORES (o medio/bajo de seguridad) no se arreglan: se reportan
    tal cual.
-7. CRITERIO DE SALIDA: pruebas en verde, typecheck y lint limpios, y cero
-   hallazgos BLOQUEANTES vivos. Las tres cosas se re-verifican DESPUES de la
+7. CRITERIO DE SALIDA: pruebas en verde, el proyecto compila y el analisis
+   estatico pasa limpio (`tsc`/ESLint, `xcodebuild build`/SwiftLint,
+   `assembleDebug`/ktlint segun la plataforma), y cero hallazgos BLOQUEANTES
+   vivos. Las tres cosas se re-verifican DESPUES de la
    ultima vuelta de correccion, no solo al principio: un arreglo de ultima hora
    puede dejar el arbol sin compilar aunque las pruebas sigan pasando.
    Si despues de 2 vueltas queda alguno vivo, no lo escondas ni lo minimices:

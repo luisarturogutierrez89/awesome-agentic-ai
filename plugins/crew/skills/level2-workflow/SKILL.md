@@ -66,8 +66,9 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
      que YA existe, continuandolo (conserva contexto, no repaga la lectura del
      diff); la re-auditoria de seguridad se lanza FRESCA, porque ahi la
      independencia es el valor y un auditor nuevo mira todo el diff otra vez.
-   - Criterio de salida: pruebas en verde, typecheck y lint limpios, y cero
-     hallazgos bloqueantes vivos. Re-verifica las tres DESPUES de la ultima
+   - Criterio de salida: pruebas en verde, el proyecto compila y el analisis
+     estatico pasa limpio (lo que corresponda a la plataforma), y cero hallazgos
+     bloqueantes vivos. Re-verifica las tres DESPUES de la ultima
      vuelta de correccion: un arreglo tardio puede dejar el arbol sin compilar
      con las pruebas todavia en verde. Lo que siga vivo tras 2 vueltas se escala al humano marcado
      como PENDIENTE; nunca se esconde ni se minimiza.
