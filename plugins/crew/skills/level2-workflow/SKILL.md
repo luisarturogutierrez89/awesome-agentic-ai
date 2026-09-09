@@ -68,7 +68,12 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
      independencia es el valor y un auditor nuevo mira todo el diff otra vez.
    - Criterio de salida: pruebas en verde, el proyecto compila y el analisis
      estatico pasa limpio (lo que corresponda a la plataforma), y cero hallazgos
-     bloqueantes vivos. Re-verifica las tres DESPUES de la ultima
+     bloqueantes vivos.
+   - Si al agotar las vueltas queda vivo algo de categoria BLOQUEANTE, no pasa a
+     la lista de pendientes menores: el tope limita cuanto intentas arreglar,
+     no rebaja la severidad. Paras y se lo presentas al humano como decision
+     suya, con las opciones. Que "hoy no haya nada que lo dispare" no lo baja de
+     categoria: esa es la excusa que la regla de severidad ya rechaza. Re-verifica las tres DESPUES de la ultima
      vuelta de correccion: un arreglo tardio puede dejar el arbol sin compilar
      con las pruebas todavia en verde. Lo que siga vivo tras 2 vueltas se escala al humano marcado
      como PENDIENTE; nunca se esconde ni se minimiza.

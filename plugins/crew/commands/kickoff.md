@@ -96,6 +96,17 @@ correccion acotado ANTES de pasarme el control a mi.
    puede dejar el arbol sin compilar aunque las pruebas sigan pasando.
    Si despues de 2 vueltas queda alguno vivo, no lo escondas ni lo minimices:
    escalamelo marcado como PENDIENTE, con lo que se intento.
+   PERO SI ESE HALLAZGO CAE EN CATEGORIA BLOQUEANTE —critico o importante del
+   `reviewer`, critico o ALTO del `security-auditor`, o cualquiera que cruce
+   frontera entre inquilinos o cuentas, o inutilice un mecanismo de escape de
+   seguridad— NO lo degrades a una viñeta en la lista de pendientes. El tope de
+   vueltas limita cuanto intentas arreglar por tu cuenta; no rebaja la severidad
+   de lo que quedo vivo. PARA y presentamelo como DECISION MIA, aparte de los
+   pendientes menores, con: que es, por que sigue vivo, y las opciones concretas
+   (arreglarlo fuera del loop, o abrir un issue de seguimiento con el riesgo
+   escrito). Ojo con el argumento "hoy no hay nada que lo dispare": esa es
+   justamente la excusa que la regla de severidad rechaza, y no deja de ser
+   bloqueante porque se hayan agotado las vueltas.
 8. FRENO. Si un arreglo requiere cambiar el plan aprobado (no es un fix acotado),
    PARA el loop y regresa al gate 1 conmigo. No cambies la solucion por tu
    cuenta: eso ya no es nivel 2.
