@@ -71,16 +71,23 @@ correccion acotado ANTES de pasarme el control a mi.
       comportamiento. Arregla SOLO esos hallazgos; no amplies el alcance.
    b. EN LOTES: si hay mas de tres hallazgos, no se los pases todos de golpe.
       Agrupalos por area (por ejemplo: control de acceso, luego validacion de
-      entradas) y despacha un lote por llamada. Un `coder` con demasiado en el
-      plato se queda sin contexto a media tarea y hay que relanzarlo, lo que
-      cuesta llamadas extra que no arreglan nada nuevo.
+      entradas) y LANZA UN AGENTE NUEVO POR LOTE, con solo lo que ese lote
+      necesita: el plan, los hallazgos de ese lote y los archivos que tocan.
+      NO continues al `coder` que implemento la feature ni al del lote anterior
+      mandandole otro mensaje. Un agente continuado arrastra todo su historial:
+      la implementacion completa mas cada ronda previa, y lo reprocesa en cada
+      turno. Encadenar lotes en el mismo agente es apilarle el plato en vez de
+      repartirlo, que es justo lo que los lotes existen para evitar.
    c. Vuelve a correr `tester` para confirmar que el arreglo no rompio nada.
    d. Re-verifica solo con el agente cuyos hallazgos se atendieron, y elige
       COMO segun lo que busques:
       - Confirmacion acotada (que su propio hallazgo quedo resuelto, o agregar
         un test que el mismo detecto que faltaba): CONTINUA al agente que ya
-        existe mandandole un mensaje, en vez de lanzar uno nuevo. Conserva su
-        contexto, no repaga la lectura del diff y responde desde lo que ya sabe.
+        existe mandandole un mensaje, en vez de lanzar uno nuevo. Solo para eso:
+        continuar es barato UNICAMENTE cuando lo que le pides es chico frente al
+        contexto que ya carga. Si le vas a pedir trabajo real —arreglar,
+        implementar, re-revisar un diff grande— lanza uno nuevo. Nunca uses
+        continuacion como forma normal de pasar de un lote al siguiente.
       - Re-auditoria de seguridad: lanza un `security-auditor` NUEVO, aunque
         cueste mas. Ahi la independencia es el producto: un agente continuado se
         enfoca en sus propios hallazgos, mientras que uno fresco vuelve a mirar

@@ -59,13 +59,17 @@ Cuando la tarea sea construir o cambiar codigo no trivial, coordina asi:
      mecanismo de escape de seguridad: esos se gradúan por la frontera que
      rompen, no por lo dificil que sea llegar. Los MENORES (y medio/bajo) se reportan sin arreglar,
      para que el ciclo no se eternice.
-   - Pasa los hallazgos al `coder` EN LOTES por area si son mas de tres. Todos
-     de golpe le agotan el contexto y hay que relanzarlo: llamadas extra que no
-     arreglan nada nuevo.
-   - Para re-verificar, distingue: una confirmacion acotada se le pide al agente
-     que YA existe, continuandolo (conserva contexto, no repaga la lectura del
-     diff); la re-auditoria de seguridad se lanza FRESCA, porque ahi la
-     independencia es el valor y un auditor nuevo mira todo el diff otra vez.
+   - Pasa los hallazgos al `coder` EN LOTES por area si son mas de tres, y
+     lanza un agente NUEVO por lote con solo lo que ese lote necesita. No
+     encadenes lotes continuando al mismo agente: su contexto solo crece y lo
+     reprocesa entero en cada turno.
+   - Tres casos distintos al elegir entre agente nuevo y continuado:
+     * Lote de arreglo o trabajo real → agente NUEVO.
+     * Confirmacion pequeña (su propio hallazgo quedo resuelto, un test que el
+       mismo detecto que faltaba) → CONTINUA al que ya existe. Continuar solo es
+       barato cuando lo que pides es chico frente a lo que ya carga.
+     * Re-auditoria de seguridad → NUEVO siempre, porque ahi la independencia es
+       el valor y un auditor fresco mira todo el diff otra vez.
    - Criterio de salida: pruebas en verde, el proyecto compila y el analisis
      estatico pasa limpio (lo que corresponda a la plataforma), y cero hallazgos
      bloqueantes vivos.
