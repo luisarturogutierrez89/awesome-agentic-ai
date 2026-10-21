@@ -6,6 +6,58 @@ implement, test and review; you approve the plan and validate the result.
 
 Works on server/web codebases and on native iOS and Android projects.
 
+## What "level 2" means
+
+A useful way to think about working with AI on code is as a ladder of how much
+you hand over, and where you stay in the loop. This is the model the plugin is
+built on — not an industry standard, just the framing that made the design
+decisions clear:
+
+| | What the AI does | Where you are |
+|---|---|---|
+| **Level 0** | Autocompletes as you type | Writing every line |
+| **Level 1** | Answers what you ask, one step at a time | Reviewing every step before applying it |
+| **Level 2** | Plans, implements, tests and reviews a whole task | **Approving the plan, validating the result** |
+| **Level 3** | Decides and ships | Spot-checking afterwards |
+
+**This plugin lives at level 2, and deliberately stays there.** You stop
+executing each step by hand, but you keep the two decisions that matter: what is
+going to be built, and whether what came back is good. Those are the two gates.
+
+```
+   YOU                                      CREW
+    |                                         |
+    |  "implement issue #42"                  |
+    |---------------------------------------->|
+    |                                         |  product-analyst clarifies
+    |                                         |  architect plans + pins
+    |                                         |    security constraints
+    |              the plan                   |
+    |<----------------------------------------|
+    |                                         |
+ [GATE 1]                                     |
+ approve, redirect, or send it back           |
+    |---------------------------------------->|
+    |                                         |  coder implements
+    |                                         |  tester verifies for real
+    |                                         |  reviewer + security-auditor
+    |                                         |    + docs-writer, in parallel
+    |                                         |  bounded loops fix what blocks
+    |         the diff + what was verified    |
+    |<----------------------------------------|
+    |                                         |
+ [GATE 2]                                     |
+ validate, and decide whether it ships        |
+```
+
+Gate 1 is the expensive one to skip. A plan you didn't read becomes a diff you
+can't review — and in practice, the cheapest findings of the whole pipeline show
+up there, before a line is written. Gate 2 is where you still own the call on
+whether it ships.
+
+The flow never commits, opens a PR, or creates an issue on its own: anything that
+leaves your machine waits for you.
+
 ## What the plugin ships
 
 - **8 subagents**: `product-analyst`, `architect`, `coder`, `tester`,
@@ -16,6 +68,40 @@ Works on server/web codebases and on native iOS and Android projects.
 
 See [the plugin's README](plugins/crew/README.md) for measured results from real
 issues, the pipeline diagram, and per-platform behavior.
+
+## Where it has been used, and where it fits
+
+It has been run on real issues in two production codebases: a **TypeScript
+monorepo** (React + Fastify + Postgres, multi-tenant, with a real test suite and
+a stack that comes up under Docker) and a **native iOS app** (Swift/SwiftUI +
+SwiftData + Firebase). Android is supported by the same rules, though it hasn't
+been measured yet.
+
+What those two have in common matters more than the stacks themselves:
+
+**It fits when**
+
+- The change spans several files, or touches authorization, sessions, secrets,
+  user input or tenant boundaries.
+- There is an existing codebase with conventions worth following — the agents
+  read them rather than inventing their own.
+- There is some way to verify for real: a test suite, a stack you can bring up,
+  a simulator. Verification is what the whole design leans on.
+
+**It doesn't fit when**
+
+- The change is trivial. The flow triages those and handles them directly,
+  without convening anyone — eight subagents for a one-line fix costs far more
+  than it contributes.
+- You are exploring or prototyping and don't yet know what you want. Gate 1
+  assumes there is a plan worth approving.
+- Nothing can be verified. With no tests and nothing runnable, `tester` and
+  `reviewer` fall back to reading code, and the pipeline's main value goes with
+  them.
+
+The one hard dependency is git. The agents work on the filesystem, the terminal
+and the repository — no IDE automation — which is also why the same flow runs
+from VS Code, a plain terminal, or CI.
 
 ## Install
 
