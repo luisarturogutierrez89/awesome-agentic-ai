@@ -1,104 +1,128 @@
-# AI Engineering Levels — Workflow nivel 2 para Claude Code
+# AI Engineering Levels — a level-2 workflow for Claude Code
 
-Un marketplace de Claude Code con un plugin, **crew**, que empaqueta
-un equipo de subagentes para trabajar en modo "autonomia supervisada" (nivel 2):
-los agentes planean, implementan, prueban y revisan; tu apruebas el plan y
-validas el resultado.
+A Claude Code marketplace with one plugin, **crew**, packaging a team of
+subagents that work under *supervised autonomy* (level 2): the agents plan,
+implement, test and review; you approve the plan and validate the result.
 
-## Que trae el plugin
+Works on server/web codebases and on native iOS and Android projects.
 
-- **8 subagentes**: `product-analyst`, `architect`, `coder`, `tester`,
+## What the plugin ships
+
+- **8 subagents**: `product-analyst`, `architect`, `coder`, `tester`,
   `reviewer`, `debugger`, `docs-writer`, `security-auditor`.
-- **1 skill de orquestacion** (`level2-workflow`): la disciplina plan -> validacion,
-  que Claude carga solo cuando la tarea es planear o construir.
-- **1 comando de arranque** (`/crew:kickoff`): dispara el pipeline
-  completo para una feature.
+- **1 orchestration skill** (`level2-workflow`): the plan → validation
+  discipline, which Claude loads only when the task is to plan or build.
+- **1 entry command** (`/crew:kickoff`): fires the full pipeline for a feature.
 
-## Instalar (cualquier dev, cualquier maquina)
+See [the plugin's README](plugins/crew/README.md) for measured results from real
+issues, the pipeline diagram, and per-platform behavior.
 
-Hay dos formas equivalentes. **Desde la terminal**:
+## Install
+
+Two equivalent ways. **From the terminal:**
 
 ```bash
 claude plugin marketplace add luisarturogutierrez89/awesome-agentic-ai
 claude plugin install crew@ai-eng-levels
 ```
 
-O **dentro de una sesion de Claude Code** (arranca `claude` primero, y ahi
-escribes):
+Or **inside a Claude Code session** (start `claude` first, then type):
 
 ```
 /plugin marketplace add luisarturogutierrez89/awesome-agentic-ai
 /plugin install crew@ai-eng-levels
 ```
 
-Ojo: `/plugin` solo existe DENTRO de la sesion. Si lo escribes en tu shell vas a
-ver `zsh: no such file or directory: /plugin`; ahi usa la variante `claude plugin`.
+Note that `/plugin` only exists INSIDE the session. Typed into your shell it
+gives you `zsh: no such file or directory: /plugin` — use the `claude plugin`
+variant there.
 
-Reinicia la sesion para que cargue. Para actualizar despues de un cambio en el
-repo: `claude plugin update crew@ai-eng-levels` (el ID completo con
-marketplace; `claude plugin update crew` a secas falla con "Plugin not found").
+Restart the session so it loads. To update after a change in the repo:
 
-## Usarlo
-
-Arranca una sesion en plan mode dentro de tu proyecto y dispara el flujo:
-
+```bash
+claude plugin update crew@ai-eng-levels
 ```
+
+Use the full ID including the marketplace — a bare `claude plugin update crew`
+fails with "Plugin not found". If you installed with `--scope project`, pass the
+same flag when updating. And restart the session afterwards: updating the files
+on disk does not reload a session that is already running.
+
+## Use it
+
+Start a session in plan mode inside your project and fire the flow:
+
+```bash
 claude --permission-mode plan
 ```
 
 ```
-/crew:kickoff clasificar el tipo de recibo antes de parsearlo
+/crew:kickoff classify the receipt type before parsing it
 ```
 
-Usa plan mode: es lo que hace que el gate 1 sea real. Sin el, "no toques codigo
-hasta que yo apruebe" es solo una instruccion; con el, los edits estan
-bloqueados por el harness hasta que apruebes.
+**Use plan mode.** It is what makes gate 1 real: without it, "don't touch code
+until I approve" is only an instruction; with it, edits are blocked by the
+harness until you approve. Plan mode is a CLI flag, not an IDE feature, so it
+works from any terminal — including alongside Xcode or Android Studio.
 
-Veras al `product-analyst` clarificar requerimientos y luego un plan tecnico que
-tu apruebas (gate 1). Ojo con quien lo escribe: **en plan mode el plan lo produce
-el planificador nativo de Claude Code, no `architect`**. En ese caso `architect`
-entra despues, para revisar ese plan y agregarle lo que le falte —sobre todo las
-restricciones de seguridad, que los planificadores genericos no incluyen. Si
-corres sin plan mode, `architect` produce el plan completo el mismo.
+You'll see `product-analyst` clarify requirements, then a technical plan you
+approve (gate 1). Note who writes it: **in plan mode the plan comes from Claude
+Code's native planner, not from `architect`.** In that case `architect` runs
+afterwards, reviewing that plan and adding what it lacks — above all the security
+constraints that generic planners leave out. Run without plan mode and
+`architect` produces the whole plan itself.
 
-Despues coder/tester/reviewer ejecutan, con loops de correccion acotados, para
-que tu valides el diff al final (gate 2).
+Then coder/tester/reviewer execute, with bounded correction loops, so you
+validate the diff at the end (gate 2).
 
-## Si lo forkeas: personaliza
+### Giving it a design to work from
 
-1. En `.claude-plugin/marketplace.json`: cambia `owner.name`, `owner.url` y el
-   `name` del marketplace (`ai-eng-levels`). El `name` debe ser kebab-case y
-   unico para ti: cada usuario solo puede registrar un marketplace por nombre.
-2. En `plugins/crew/.claude-plugin/plugin.json`: pon tu `author.name`.
-3. Valida antes de compartir:
-   ```
+Images pasted into the chat reach the orchestrator, not the subagents — each one
+is a separate context. To let `architect` and `coder` see a mockup, commit it as
+a file and point at the path:
+
+```
+/crew:kickoff implement issue #52; the mockup is at docs/design/issue-52.png
+```
+
+Every agent can open images with `Read`, so they work from the design itself
+rather than from a second-hand description of it.
+
+## If you fork it
+
+1. In `.claude-plugin/marketplace.json`: change `owner.name`, `owner.url` and the
+   marketplace `name` (`ai-eng-levels`). The `name` must be kebab-case and unique
+   to you — each user can register only one marketplace per name.
+2. In `plugins/crew/.claude-plugin/plugin.json`: set your `author.name`.
+3. Validate before sharing:
+   ```bash
    claude plugin validate .
    ```
 
-## Versionado
+## Versioning
 
-`plugin.json` trae `version: 0.2.0`. Sube ese numero en cada release para que
-los usuarios reciban la actualizacion. Si prefieres que sigan siempre el ultimo
-commit, quita el campo `version` y Claude Code usara el SHA del commit.
+`plugin.json` carries a `version` field. Bump it on each release so users receive
+the update. If you'd rather have them always follow the latest commit, drop the
+field and Claude Code will use the commit SHA instead.
 
-## Usarlo en el trabajo (equipos gestionados)
+## Using it at work (managed teams)
 
-En una maquina administrada por tu empresa, los "managed settings" pueden
-restringir que marketplaces se pueden agregar (`strictKnownMarketplaces`). Si
-esta bloqueado, no podras agregar un marketplace personal ahi: pide a quien
-administra Claude Code que lo permita, o que lo distribuya a todo el equipo via
-Organization settings > Plugins. Para compartir con tu equipo por repo, se puede
-declarar en el `.claude/settings.json` del proyecto con `extraKnownMarketplaces`
-y `enabledPlugins` para que se registre solo al confiar en la carpeta.
+On a machine administered by your company, managed settings may restrict which
+marketplaces can be added (`strictKnownMarketplaces`). If it's blocked you won't
+be able to add a personal marketplace there: ask whoever administers Claude Code
+to allow it, or to distribute it to the whole team via Organization settings >
+Plugins. To share it with your team per repo, declare it in the project's
+`.claude/settings.json` with `extraKnownMarketplaces` and `enabledPlugins` so it
+registers itself once the folder is trusted.
 
-## Avisos
+## Notes
 
-- **No metas nada confidencial** en este repo si va a ser publico: nada de
-  documentos internos, specs de clientes, credenciales ni datos de la empresa.
-  Los agentes aqui son genericos a proposito.
-- Trata cualquier plugin de terceros como codigo que corres con confianza:
-  revisalo y fijalo a una version.
+- **Keep nothing confidential in this repo** if it's going to be public: no
+  internal documents, client specs, credentials or company data. The agents here
+  are deliberately generic.
+- Treat any third-party plugin as code you run with trust: review it and pin it
+  to a version.
 
-## Licencia
+## License
 
-MIT (ajustala si quieres).
+MIT.
